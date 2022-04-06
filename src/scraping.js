@@ -24,20 +24,20 @@ const listAllLinks = async (targetUrl) => {
 const extractRelevantData = async (productLink) => {
     try {
         const response = await axios.get(productLink)
-        const htmlAnuncio = response.data
-        const $ = await cheerio.load(htmlAnuncio)
-        let nomeProduto = $('#content > div.sc-18p038x-3.dSrKbb > div > div.sc-bwzfXH.h3us20-0.cBfPri > div.duvuxf-0.h3us20-0.jAHFXn > div.h3us20-6.gFNxVM > div > div > h1').text()
-        let valor = $('#content > div.sc-18p038x-3.dSrKbb > div > div.sc-bwzfXH.h3us20-0.cBfPri > div.duvuxf-0.h3us20-0.cpscHx > div.h3us20-6.jUPCvE > div > div > div.sc-hmzhuo.dtdGqP.sc-jTzLTM.iwtnNi > div.sc-hmzhuo.sc-12l420o-0.kUWFYY.sc-jTzLTM.iwtnNi > h2.sc-ifAKCX.eQLrcK').text()
-        let dataPublicacao = $('#content > div.sc-18p038x-3.dSrKbb > div > div.sc-bwzfXH.h3us20-0.cBfPri > div.duvuxf-0.h3us20-0.jAHFXn > div.h3us20-6.hzUJDA > div > div > div > span.sc-1oq8jzc-0.jvuXUB.sc-ifAKCX.fizSrB').text()
-        const resultado = {
-            nomeProduto: nomeProduto,
-            valor: valor,
-            dataPublicacao: dataPublicacao,
+        const htmlProduct = response.data
+        const $ = await cheerio.load(htmlProduct)
+        let productName = $('#content > div.sc-18p038x-3.dSrKbb > div > div.sc-bwzfXH.h3us20-0.cBfPri > div.duvuxf-0.h3us20-0.jAHFXn > div.h3us20-6.gFNxVM > div > div > h1').text()
+        let value = $('#content > div.sc-18p038x-3.dSrKbb > div > div.sc-bwzfXH.h3us20-0.cBfPri > div.duvuxf-0.h3us20-0.cpscHx > div.h3us20-6.jUPCvE > div > div > div.sc-hmzhuo.dtdGqP.sc-jTzLTM.iwtnNi > div.sc-hmzhuo.sc-12l420o-0.kUWFYY.sc-jTzLTM.iwtnNi > h2.sc-ifAKCX.eQLrcK').text()
+        let publishDate = $('#content > div.sc-18p038x-3.dSrKbb > div > div.sc-bwzfXH.h3us20-0.cBfPri > div.duvuxf-0.h3us20-0.jAHFXn > div.h3us20-6.hzUJDA > div > div > div > span.sc-1oq8jzc-0.jvuXUB.sc-ifAKCX.fizSrB').text()
+        const result = {
+            productName: productName,
+            value: value,
+            publishDate: publishDate,
             link: productLink
         }
-        return resultado
+        return result
     } catch (error) {
-        console.log('Houve um problema na extração dos dados' + error)
+        console.log('Something went wrong in data extraction' + error)
     }
 }
 
