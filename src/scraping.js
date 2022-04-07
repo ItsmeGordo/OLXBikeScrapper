@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
+const { LINK_CLASS, PRODUCT_NAME_SELECTOR, VALUE_SELECTOR, PUBLISH_DATE_SELECTOR, KM_SELECTOR, CEP_SELECTOR, CITY_SELECTOR, YEAR_SELECTOR } = require('./constants');
 
 const extractAllData = async (targetUrl) => {
     try {
@@ -15,7 +16,7 @@ const listAllLinks = async (targetUrl) => {
     const linksExtracted = []
     const html = await extractAllData(targetUrl);
     const $ = await cheerio.load(html);
-    $('.sc-12rk7z2-1').each(function(i, lnk) {
+    $(LINK_CLASS).each(function(i, lnk) {
         linksExtracted[i] = $(lnk).attr('href')
     })
     return linksExtracted
@@ -26,13 +27,14 @@ const extractRelevantData = async (productLink) => {
         const response = await axios.get(productLink)
         const htmlProduct = response.data
         const $ = await cheerio.load(htmlProduct)
-        let productName = $('#content > div.sc-18p038x-3.dSrKbb > div > div.sc-bwzfXH.h3us20-0.cBfPri > div.duvuxf-0.h3us20-0.jAHFXn > div.h3us20-6.gFNxVM > div > div > h1').text()
-        let value = $('#content > div.sc-18p038x-3.dSrKbb > div > div.sc-bwzfXH.h3us20-0.cBfPri > div.duvuxf-0.h3us20-0.cpscHx > div.h3us20-6.jUPCvE > div > div > div.sc-hmzhuo.dtdGqP.sc-jTzLTM.iwtnNi > div.sc-hmzhuo.sc-12l420o-0.kUWFYY.sc-jTzLTM.iwtnNi > h2.sc-ifAKCX.eQLrcK').text()
-        let publishDate = $('#content > div.sc-18p038x-3.dSrKbb > div > div.sc-bwzfXH.h3us20-0.cBfPri > div.duvuxf-0.h3us20-0.jAHFXn > div.h3us20-6.hzUJDA > div > div > div > span.sc-1oq8jzc-0.jvuXUB.sc-ifAKCX.fizSrB').text()
         const result = {
-            productName: productName,
-            value: value,
-            publishDate: publishDate,
+            productName: $(PRODUCT_NAME_SELECTOR).text(),
+            value: $(VALUE_SELECTOR).text(),
+            publishDate: $(PUBLISH_DATE_SELECTOR).text(),
+            fabricationYear: $(YEAR_SELECTOR).text(),
+            mileage: $(KM_SELECTOR).text(),
+            cep: $(CEP_SELECTOR).text(),
+            city: $(CITY_SELECTOR).text(),
             link: productLink
         }
         return result
@@ -51,8 +53,12 @@ const getDataFromUrl = async (targetUrl) => {
             const extractedData = await extractRelevantData(productLink)
             data[key].push(extractedData)
         };
-        console.log(data)
+        return data
     } catch (error) {
         console.log('Ops! something went wrong' + error)
     }
 }
+
+module.exports = {
+    getDataFromUrl: getDataFromUrl
+  }
