@@ -48,8 +48,7 @@ Os estados que pretendo buscar as motos, não exatamente os melhores locais para
 
 # TODO
 
-- [ ] Salvar os dados em um arquivo (CSV, JSON ou algo do tipo)
+- [x] Salvar os dados em um arquivo (CSV, JSON ou algo do tipo)
 - [ ] Transferir os dados referente a busca para um arquivo estilo o de constantes
-- [ ] Versionar os dados coletados, com data e hora da coleta
-- [ ] Melhorar a parte das listas dos veiculos
-- [ ] Salvar os dados em um SQLite, para posteriormente poder fazer analise nele com referencia aos valores
+- [x] Versionar os dados coletados, com data e hora da coleta
+- [ ] Melhorar a parte das listas dos veiculos, colocando o nome do modelo, não apenas o link

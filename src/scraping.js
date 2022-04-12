@@ -1,6 +1,5 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const fs = require('fs');
 const { LINK_CLASS, PRODUCT_NAME_SELECTOR, VALUE_SELECTOR, PUBLISH_DATE_SELECTOR, KM_SELECTOR, CEP_SELECTOR, CITY_SELECTOR, YEAR_SELECTOR } = require('./constants');
 
 const extractAllData = async (targetUrl) => {
