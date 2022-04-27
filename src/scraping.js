@@ -44,13 +44,11 @@ const extractRelevantData = async (productLink) => {
 
 const getDataFromUrl = async (targetUrl) => {
     try {
-        var data = {} // empty Object
-        var key = targetUrl;
-        data[key] = [];
+        var data = [] // empty Object
         const linksExtracted = await listAllLinks(targetUrl)
         for (const productLink of linksExtracted) {
             const extractedData = await extractRelevantData(productLink)
-            data[key].push(extractedData)
+            data.push(extractedData)
         };
         return data
     } catch (error) {
